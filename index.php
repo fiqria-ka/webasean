@@ -45,7 +45,7 @@ include "koneksi.php";
                         <a class="nav-link" href="#article">Article</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#galery">Gallery</a>
+                        <a class="nav-link" href="#gallery">Gallery</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#schedule">Schedule</a>
@@ -121,64 +121,42 @@ include "koneksi.php";
 </section>
 <!-- article end -->
 
-    <section id="galery" class="text-center p-5 bg-danger-subtle">
-      <div class="container">
-        <h1 class="fw-bold display-4 pb-3">Gallery</h1>
-        <div id="carouselExample" class="carousel slide">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img
-                src="assets/asean2.jpg"
-                class="d-block w-100"
-                alt="asean2"
-              />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="assets/asean3.jpg"
-                class="d-block w-100"
-                alt="asean3"
-              />
-            </div>
-            <div class="carousel-item">
-              <img src="assets/asean4.webp"
-              class="d-block w-100" 
-              alt="asean4" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="assets/asean5.webp"
-                class="d-block w-100"
-                alt="asean6"
-              />
-            </div>
-            <div class="carousel-item">
-              <img src="assets/asean6.webp" 
-              class="d-block w-100" 
-              alt="asean7" />
-            </div>
+<section id="gallery" class="text-center p-5 bg-danger-subtle">
+  <div class="container">
+    <h1 class="fw-bold display-4 pb-3">Gallery</h1>
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <?php
+        $sql = "SELECT * FROM gallery ORDER BY tanggal DESC";
+        $hasil = $conn->query($sql); 
+        $active = true; // Flag to set the first item as active
+
+        while ($row = $hasil->fetch_assoc()) {
+        ?>
+        <div class="carousel-item <?= $active ? 'active' : '' ?>">
+          <img src="img/<?= htmlspecialchars($row['gambar']) ?>" class="d-block w-100" alt="<?= htmlspecialchars($row['judul']) ?>" />
+          <div class="carousel-caption d-none d-md-block">
+            <h5><?= htmlspecialchars($row['judul']) ?></h5>
+            <p><?= htmlspecialchars($row['deskripsi'] ?? '') ?></p>
           </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
+        <?php
+          $active = false; // Only the first item should be active
+        }
+        ?>
       </div>
-    </section>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
 
     <main class="container text-center my-5">
       <section id="schedule" class="text-center p-5">
